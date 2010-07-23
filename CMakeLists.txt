@@ -8,18 +8,22 @@ project(SUNPINYIN)
 
 set(CMAKE_OSX_ARCHITECTURES x86_64;i386)
 
-if (APPLE)
-    set(HOST_OS "mac")
-endif (APPLE)
-
 set(PACKAGE             sunpinyin)
 set(GETTEXT_PACKAGE     ${PACKAGE})
 set(PACKAGE_NAME        ${PACKAGE})
 set(PACKAGE_BUGREPORT   "sunpinyin-developers@googlegroups.com")
 set(PACKAGE_TARNAME     ${PACKAGE})
-set(VERSION             "2.0")
+set(MAJOR_VERSION       2)
+set(MINOR_VERSION       0)
+set(BUILD_VERSION       2)
+set(VERSION             ${MAJOR_VERSION}.${MINOR_VERSION})
+set(PACKAGE_SOVERSION   3)
 set(PACKAGE_VERSION     ${VERSION})
 set(PACKAGE_STRING      "${PACKAGE} ${VERSION}")
+
+option(TRAIN_LM
+       "Set to ON to train language model using lexicon and corpus, otherwise I will download it from open-gram."
+       OFF)
 
 check_include_files(assert.h    HAVE_ASSERT_H)
 check_include_files(dlfcn.h     HAVE_DLFCN_H)
@@ -55,55 +59,72 @@ check_function_exists(strcpy      HAVE_STRCPY)
 check_function_exists(log2        HAVE_LOG2)
 check_function_exists(exp2        HAVE_EXP2)
 
+
+if (APPLE)
+    set(HOST_OS "mac")
+    set(SKIP_ICONV_LIBRARY 0)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES Linux)
+    set(HOST_OS "linux")
+    set(SKIP_ICONV_LIBRARY 1)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES SunOS)
+    set(HOST_OS "solaris")
+    set(SKIP_ICONV_LIBRARY 1)
+endif (APPLE)
+
+include(TestBigEndian)
+test_big_endian(WORDS_BIGENDIAN)
+
+configure_file(src/config/${HOST_OS}.h
+               ${CMAKE_SOURCE_DIR}/src/host_os.h ESCAPE_QUOTES)
 configure_file(config.h.cmakein config.h ESCAPE_QUOTES)
-configure_file(src/config/${HOST_OS}.h host_os.h ESCAPE_QUOTES)
+
+add_definitions(-DHAVE_CONFIG_H)
+if (NOT DEFINED SUNPINYIN_DATA_DIR)
+    add_definitions(-DSUNPINYIN_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/${PACKAGE}/data")
+endif (NOT DEFINED SUNPINYIN_DATA_DIR)
 
 set(SOURCE_DIR      "${SUNPINYIN_SOURCE_DIR}/src")
-set(CORPUS_DIR      "${SUNPINYIN_SOURCE_DIR}/raw")
-set(RESULT_DIR      "${SUNPINYIN_SOURCE_DIR}/data")
-set(SWAP_DIR        "${SUNPINYIN_SOURCE_DIR}/swap")
-set(LMTARGET        "lm_sc")
-
 set(SLM_SRC_DIR     "${SOURCE_DIR}/slm")
 set(LEXICON_SRC_DIR "${SOURCE_DIR}/lexicon")
 set(IMECORE_DIR     "${SOURCE_DIR}/ime-core")
 set(PINYIN_SRC_DIR  "${SOURCE_DIR}/pinyin")
 set(TSLMENDIAN_DIR  "${SLM_SRC_DIR}/tslmendian")
 
-add_definitions(-DHAVE_CONFIG_H)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SOURCE_DIR} ${PINYIN_SRC_DIR} ${IMECORE_DIR} ${TSLMENDIAN_DIR})
 
-set(GENPYT_SOURCES 
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h host_os.h
-    ${SLM_SRC_DIR}/slm.cpp ${SLM_SRC_DIR}/slm.h
-    ${TSLMENDIAN_DIR}/writer.cpp ${TSLMENDIAN_DIR}/writer.h
-    ${LEXICON_SRC_DIR}/trie_writer.cpp ${LEXICON_SRC_DIR}/trie_writer.h
-    ${LEXICON_SRC_DIR}/genPYT.cpp ${LEXICON_SRC_DIR}/pytrie.cpp ${LEXICON_SRC_DIR}/pytrie.h
-    ${LEXICON_SRC_DIR}/pytrie_gen.cpp ${LEXICON_SRC_DIR}/pytrie_gen.h
-    ${PINYIN_SRC_DIR}/pinyin_data.cpp ${PINYIN_SRC_DIR}/pinyin_data.h
-    ${PINYIN_SRC_DIR}/syllable.h)
+set(CORPUS_DIR      "${SUNPINYIN_SOURCE_DIR}/raw")
+set(RESULT_DIR      "${SUNPINYIN_SOURCE_DIR}/data")
+set(SWAP_DIR        "${SUNPINYIN_SOURCE_DIR}/swap")
+set(LMTARGET        "lm_sc")
 
-find_library(iconv iconv)
-add_executable(genpyt ${GENPYT_SOURCES})
-target_link_libraries(genpyt ${iconv})
+add_subdirectory(src)
+add_subdirectory(build EXCLUDE_FROM_ALL)
+add_subdirectory(data)
 
-set(PINYIN_TEXTFILE "${CORPUS_DIR}/dict.utf8")
-set(PYTRIE_FILE     "${RESULT_DIR}/pydict_sc.bin")
-set(PYTRIE_PRINTOUT "${SWAP_DIR}/pydict_sc.log.utf8")
-set(TSLM_FILE3      "${RESULT_DIR}/${LMTARGET}.t3g")
-set(LM_SC_ARPA      "${CORPUS_DIR}/lm_sc.t3g.arpa")
+configure_file(sunpinyin.pc.in sunpinyin.pc @ONLY)
+install(FILES sunpinyin.pc
+    DESTINATION lib/pkgconfig)
 
-set(TSLMPACK_SOURCES
-    ${SOURCE_DIR}/portability.h host_os.h
-    ${SLM_SRC_DIR}/slm.cpp ${SLM_SRC_DIR}/slm.h
-    ${SLM_SRC_DIR}/thread/ValueCompress.cpp ${SLM_SRC_DIR}/thread/ValueCompress.h
-    ${SLM_SRC_DIR}/tslmpack/slmpack.cpp ${SLM_SRC_DIR}/tslmpack/common.h
-    ${SLM_SRC_DIR}/tslmpack/arpa_conv.cpp ${SLM_SRC_DIR}/tslmpack/arpa_conv.h
-    ${SLM_SRC_DIR}/tslmpack/arpa_slm.cpp ${SLM_SRC_DIR}/tslmpack/arpa_slm.h)
+set(CPACK_PACKAGE_NAME ${PACKAGE_NAME})
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "an SLM based input method engine")
+set(CPACK_PACKAGE_VERSION_MAJOR ${MAJOR_VERSION})
+set(CPACK_PACKAGE_VERSION_MINOR ${MINOR_VERSION})
+set(CPACK_PACKAGE_VERSION_PATCH ${BUILD_VERSION})
+set(CPACK_SOURCE_IGNORE_FILES "/.git/;.gitignore;/cmakebuild")
+set(CPACK_SOURCE_GENERATOR "TBZ2")
+include(CPack)
 
-add_executable(tslmpack ${TSLMPACK_SOURCES})
+message(STATUS)
+message(STATUS "===== ${PACKAGE_STRING} ====")
+message(STATUS "MAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "TRAIN_LM = ${TRAIN_LM}")
+message(STATUS "HOST_OS = ${HOST_OS}")
+message(STATUS "WORDS_BIGENDIAN = ${WORDS_BIGENDIAN}")
+message(STATUS "SUNPINYIN_DATA_DIR = ${SUNPINYIN_DATA_DIR}")
+message(STATUS "Change a value with: cmake -D<variable>=<value>")
+message(STATUS "==========")
+message(STATUS)
 
-add_custom_target(tslmfile ${CMAKE_CURRENT_BINARY_DIR}/tslmpack ${LM_SC_ARPA} ${PINYIN_TEXTFILE} ${TSLM_FILE3} DEPENDS tslmpack)
-
-add_custom_target(lexicon ${CMAKE_CURRENT_BINARY_DIR}/genpyt -i ${PINYIN_TEXTFILE} -o ${PYTRIE_FILE} -l ${PYTRIE_PRINTOUT} -s ${TSLM_FILE3} DEPENDS genpyt)
+# cache the options
+set(TRAIN_LM ${TRAIN_LM} CACHE BOOL "Generate data/lm_sc.t3g from corpus and lexicon")
 

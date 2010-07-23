@@ -43,13 +43,16 @@
 #include "imi_view.h"
 #include "imi_uiobjects.h"
 
+#ifndef ICON_PATH
+#define ICON_PATH "images"
+#endif
 
-const char *CGTKWinHandler::hanzi_image_file_name = "images/han.png";
-const char *CGTKWinHandler::eng_image_file_name = "images/eng.png";
-const char *CGTKWinHandler::cnpunc_image_file_name = "images/cnpunc.png";
-const char *CGTKWinHandler::enpunc_image_file_name = "images/enpunc.png";
-const char *CGTKWinHandler::fullwidth_image_file_name = "images/fullwidth.png";
-const char *CGTKWinHandler::halfwidth_image_file_name = "images/halfwidth.png";
+const char *CGTKWinHandler::hanzi_image_file_name =     ICON_PATH"/han.png";
+const char *CGTKWinHandler::eng_image_file_name =       ICON_PATH"/eng.png";
+const char *CGTKWinHandler::cnpunc_image_file_name =    ICON_PATH"/cnpunc.png";
+const char *CGTKWinHandler::enpunc_image_file_name =    ICON_PATH"/enpunc.png";
+const char *CGTKWinHandler::fullwidth_image_file_name = ICON_PATH"/fullwidth.png";
+const char *CGTKWinHandler::halfwidth_image_file_name = ICON_PATH"/halfwidth.png";
 
 GtkWidget *CGTKWinHandler::hanzi_image = NULL;
 GtkWidget *CGTKWinHandler::eng_image = NULL;

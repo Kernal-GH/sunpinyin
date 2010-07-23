@@ -400,7 +400,9 @@ double CalcNodeBow(CSlmBuilder* builder, int lvl, TSIMWordId words[], chIterator
         sum += builder->getPr(lvl, words+2);
     }
     assert(sumnext > 0.0 && sumnext < 1.05);
-    assert(sum < 1.05 && sum > 0.0);
+    if (sum > 1.05) {
+        fprintf(stderr, "sum(pr) is larger than 1.05: %f\n", sum);
+    }
     //消除计算误差的影响
     if (sumnext >= 1.0 || sum >= 1.0) {
         double bow = ((sumnext > sum)?sumnext:sum)+0.0001;

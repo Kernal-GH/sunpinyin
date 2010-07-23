@@ -1,4 +1,7 @@
-/* config.h.in.  Generated from configure.ac by autoheader.  */
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
+
+#define SUNPINYIN_VERSION "@PACKAGE_VERSION@"
 
 /* Define if you want to make for debugging. */
 #cmakedefine DEBUG
@@ -145,12 +148,6 @@
 /* Version number of package */
 #cmakedefine VERSION "${VERSION}"
 
-/* "Without keycode" */
-#cmakedefine WITH_IBUS_1_1_0
-
-/* "With keycode" */
-#cmakedefine WITH_IBUS_1_2_0
-
 /* Define to 1 if your processor stores words with the most significant byte
    first (like Motorola and SPARC, unlike Intel and VAX). */
 #cmakedefine WORDS_BIGENDIAN
@@ -166,3 +163,5 @@
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 #cmakedefine size_t
+
+#endif // __CONFIG_H__

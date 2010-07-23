@@ -348,7 +348,9 @@ double CSlmPruner::CalcDistance(int lvl, int* idx, TSIMWordId* hw)
             assert(p_r > 0.0 && p_r < 1.0);
             cache_PB -= p_r;
         }
-        assert(cache_PA > -0.01 && cache_PB > -0.01);
+        if (cache_PA <= -.01 || cache_PB <= -.01) {
+            fprintf(stderr, "cache_PA or cache_PB is not small enough: %f, %f\n", cache_PA, cache_PB);
+        }
         if (cache_PA < 0.00001 || cache_PB < 0.00001) {
             printf("\n precision problem on %d gram:", lvl-1);
             for (int i=1; i < lvl; ++i) printf("%d ", idx[i]);
