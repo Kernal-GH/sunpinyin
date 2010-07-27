@@ -28,7 +28,7 @@ set(MMSEG_SOURCES
     ${SLM_SRC_DIR}/sim_sen.cpp ${SLM_SRC_DIR}/sim_sen.h
     ${SLM_SRC_DIR}/mmseg/mmseg.cpp)
 
-add_executable(mmseg ${MMSEG_SOURCES})
+add_executable(mmseg EXCLUDE_FROM_ALL ${MMSEG_SOURCES})
 
 set(IDS2NGRAM_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
@@ -36,7 +36,7 @@ set(IDS2NGRAM_SOURCES
     ${SLM_SRC_DIR}/ids2ngram/ids2ngram.cpp ${SLM_SRC_DIR}/ids2ngram/idngram.h
     ${SLM_SRC_DIR}/ids2ngram/idngram_merge.h)
 
-add_executable(ids2ngram ${IDS2NGRAM_SOURCES})
+add_executable(ids2ngram EXCLUDE_FROM_ALL ${IDS2NGRAM_SOURCES})
 
 set(SLMTHREAD_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
@@ -44,7 +44,7 @@ set(SLMTHREAD_SOURCES
     ${SLM_SRC_DIR}/thread/ValueCompress.cpp ${SLM_SRC_DIR}/thread/ValueCompress.h
     ${SLM_SRC_DIR}/thread/slmthread.cpp)
 
-add_executable(slmthread ${SLMTHREAD_SOURCES})
+add_executable(slmthread EXCLUDE_FROM_ALL ${SLMTHREAD_SOURCES})
 target_link_libraries(slmthread ${ICONV_LIBRARY})
 
 set(SLMBUILD_SOURCES
@@ -53,14 +53,14 @@ set(SLMBUILD_SOURCES
     ${SLM_SRC_DIR}/sim_slmbuilder.cpp ${SLM_SRC_DIR}/sim_slmbuilder.h
     ${SLM_SRC_DIR}/slmbuild/slmbuild.cpp)
 
-add_executable(slmbuild ${SLMBUILD_SOURCES})
+add_executable(slmbuild EXCLUDE_FROM_ALL ${SLMBUILD_SOURCES})
 
 set(SLMPRUNE_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
     ${SLM_SRC_DIR}/sim_slm.cpp ${SLM_SRC_DIR}/sim_slm.h
     ${SLM_SRC_DIR}/slmprune/slmprune.cpp)
 
-add_executable(slmprune ${SLMPRUNE_SOURCES})
+add_executable(slmprune EXCLUDE_FROM_ALL ${SLMPRUNE_SOURCES})
 
 set(TSLMINFO_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
@@ -68,7 +68,7 @@ set(TSLMINFO_SOURCES
     ${SLM_SRC_DIR}/sim_slm.h
     ${SLM_SRC_DIR}/tslminfo/tslminfo.cpp)
 
-add_executable(tslminfo ${TSLMINFO_SOURCES})
+add_executable(tslminfo EXCLUDE_FROM_ALL ${TSLMINFO_SOURCES})
 target_link_libraries(tslminfo ${ICONV_LIBRARY})
 
 add_custom_command(
@@ -126,7 +126,7 @@ set(TSLMPACK_SOURCES
     ${SLM_SRC_DIR}/tslmpack/arpa_conv.cpp ${SLM_SRC_DIR}/tslmpack/arpa_conv.h
     ${SLM_SRC_DIR}/tslmpack/arpa_slm.cpp ${SLM_SRC_DIR}/tslmpack/arpa_slm.h)
 
-add_executable(tslmpack ${TSLMPACK_SOURCES})
+add_executable(tslmpack EXCLUDE_FROM_ALL ${TSLMPACK_SOURCES})
 
 set(GENPYT_SOURCES 
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
@@ -138,7 +138,7 @@ set(GENPYT_SOURCES
     ${PINYIN_SRC_DIR}/pinyin_data.cpp ${PINYIN_SRC_DIR}/pinyin_data.h
     ${PINYIN_SRC_DIR}/syllable.h)
 
-add_executable(genpyt ${GENPYT_SOURCES})
+add_executable(genpyt EXCLUDE_FROM_ALL ${GENPYT_SOURCES})
 target_link_libraries(genpyt ${ICONV_LIBRARY})
 
 add_custom_command(
