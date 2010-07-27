@@ -29,6 +29,7 @@ set(MMSEG_SOURCES
     ${SLM_SRC_DIR}/mmseg/mmseg.cpp)
 
 add_executable(mmseg EXCLUDE_FROM_ALL ${MMSEG_SOURCES})
+target_link_libraries(mmseg ${ICONV_LIBRARY})
 
 set(IDS2NGRAM_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
@@ -37,6 +38,7 @@ set(IDS2NGRAM_SOURCES
     ${SLM_SRC_DIR}/ids2ngram/idngram_merge.h)
 
 add_executable(ids2ngram EXCLUDE_FROM_ALL ${IDS2NGRAM_SOURCES})
+target_link_libraries(ids2ngram ${ICONV_LIBRARY})
 
 set(SLMTHREAD_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
@@ -54,6 +56,7 @@ set(SLMBUILD_SOURCES
     ${SLM_SRC_DIR}/slmbuild/slmbuild.cpp)
 
 add_executable(slmbuild EXCLUDE_FROM_ALL ${SLMBUILD_SOURCES})
+target_link_libraries(slmbuild ${ICONV_LIBRARY})
 
 set(SLMPRUNE_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
@@ -61,6 +64,7 @@ set(SLMPRUNE_SOURCES
     ${SLM_SRC_DIR}/slmprune/slmprune.cpp)
 
 add_executable(slmprune EXCLUDE_FROM_ALL ${SLMPRUNE_SOURCES})
+target_link_libraries(slmprune ${ICONV_LIBRARY})
 
 set(TSLMINFO_SOURCES
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h

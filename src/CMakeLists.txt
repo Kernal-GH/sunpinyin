@@ -3,6 +3,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR
     add_definitions("-DDEBUG")
 endif()
 
+if (NOT SKIP_ICONV_LIBRARY)
+    find_library(ICONV_LIBRARY iconv)
+endif (NOT SKIP_ICONV_LIBRARY)
+
 set(IME_SOURCES 
     portability.cpp portability.h
     slm/slm.cpp slm/slm.h 
@@ -29,8 +33,8 @@ if (NOT DEFINED SUNPINYIN_DATA_DIR)
     add_definitions(-DSUNPINYIN_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/${PACKAGE}/data")
 endif (NOT DEFINED SUNPINYIN_DATA_DIR)
 
-add_library(${PACKAGE}-static STATIC ${IME_SOURCES})
 add_library(${PACKAGE} SHARED ${IME_SOURCES})
+target_link_libraries(${PACKAGE} ${SQLITE3_LIBRARY} ${ICONV_LIBRARY})
 
 set_target_properties(${PACKAGE}
     PROPERTIES
