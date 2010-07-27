@@ -1,5 +1,7 @@
 # CMakeLists.txt: cmake config file for SunPinyin 2 build on Mac
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake-modules/")
+
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 
@@ -21,13 +23,14 @@ set(PACKAGE_SOVERSION   3)
 set(PACKAGE_VERSION     ${VERSION})
 set(PACKAGE_STRING      "${PACKAGE} ${VERSION}")
 
+find_package(Sqlite3 REQUIRED)
+
 option(TRAIN_LM
        "Set to ON to train language model using lexicon and corpus, otherwise I will download it from open-gram."
        OFF)
 
 check_include_files(assert.h    HAVE_ASSERT_H)
 check_include_files(dlfcn.h     HAVE_DLFCN_H)
-check_include_files(fcntl.h     HAVE_FCNTL_H)
 check_include_files(getopt.h    HAVE_GETOPT_H)
 check_include_files(iconv.h     HAVE_ICONV_H)
 check_include_files(inttypes.h  HAVE_INTTYPES_H)
@@ -37,7 +40,6 @@ check_include_files(locale.h    HAVE_LOCALE_H)
 check_include_files(stdlib.h    HAVE_STDLIB_H)
 check_include_files(string.h    HAVE_STRING_H)
 check_include_files(strings.h   HAVE_STRINGS_H)
-check_include_files(memory.h    HAVE_MEMORY_H)
 check_include_files(stdint.h    HAVE_STDINT_H)
 check_include_files(wchar.h     HAVE_WCHAR_H)
 check_include_files(unistd.h    HAVE_UNISTD_H)
@@ -46,7 +48,6 @@ check_include_files(sys/stat.h  HAVE_SYS_STAT_H)
 check_include_files(sys/types.h HAVE_SYS_TYPES_H)
 
 check_function_exists(getopt_long HAVE_GETOPT_LONG)
-check_function_exists(getpagesize HAVE_GETPAGESIZE)
 check_function_exists(gettext     HAVE_GETTEXT)
 check_function_exists(get_opt     HAVE_GET_OPT)
 check_function_exists(munmap      HAVE_MUNMAP)
@@ -90,7 +91,12 @@ set(IMECORE_DIR     "${SOURCE_DIR}/ime-core")
 set(PINYIN_SRC_DIR  "${SOURCE_DIR}/pinyin")
 set(TSLMENDIAN_DIR  "${SLM_SRC_DIR}/tslmendian")
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SOURCE_DIR} ${PINYIN_SRC_DIR} ${IMECORE_DIR} ${TSLMENDIAN_DIR})
+include_directories(${SQLITE3_INCLUDE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}
+                    ${SOURCE_DIR}
+                    ${PINYIN_SRC_DIR}
+                    ${IMECORE_DIR}
+                    ${TSLMENDIAN_DIR})
 
 set(CORPUS_DIR      "${SUNPINYIN_SOURCE_DIR}/raw")
 set(RESULT_DIR      "${SUNPINYIN_SOURCE_DIR}/data")
@@ -101,8 +107,8 @@ add_subdirectory(src)
 add_subdirectory(build EXCLUDE_FROM_ALL)
 add_subdirectory(data)
 
-configure_file(sunpinyin.pc.in sunpinyin.pc @ONLY)
-install(FILES sunpinyin.pc
+configure_file(sunpinyin.pc.in ${PACKAGE}-${VERSION}.pc @ONLY)
+install(FILES ${PACKAGE}-${VERSION}.pc
     DESTINATION lib/pkgconfig)
 
 set(CPACK_PACKAGE_NAME ${PACKAGE_NAME})

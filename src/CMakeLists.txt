@@ -28,6 +28,7 @@ set(IME_SOURCES
 if (NOT DEFINED SUNPINYIN_DATA_DIR)
     add_definitions(-DSUNPINYIN_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/${PACKAGE}/data")
 endif (NOT DEFINED SUNPINYIN_DATA_DIR)
+
 add_library(${PACKAGE}-static STATIC ${IME_SOURCES})
 add_library(${PACKAGE} SHARED ${IME_SOURCES})
 
@@ -43,22 +44,7 @@ set(IME_HEADERS
     sunpinyin.h
     host_os.h
     portability.h
-    slm/ids2ngram/idngram.h
-    slm/ids2ngram/idngram_merge.h
     slm/slm.h
-    slm/tslmpack/arpa_slm.h
-    slm/tslmpack/common.h
-    slm/tslmpack/arpa_conv.h
-    slm/sim_dict.h
-    slm/sim_sen.h
-    slm/sim_slm.h
-    slm/thread/ValueCompress.h
-    slm/sim_fmerge.h
-    slm/sim_slmbuilder.h
-    slm/tslmendian/slm_file.h
-    slm/tslmendian/writer.h
-    lexicon/pytrie_gen.h
-    lexicon/trie_writer.h
     lexicon/pytrie.h
     ime-core/imi_view_classic.h
     ime-core/imi_uiobjects.h
@@ -87,4 +73,4 @@ set(IME_HEADERS
     pinyin/datrie_impl.h)
 
 install(FILES ${IME_HEADERS}
-    DESTINATION include)
+    DESTINATION include/${PACKAGE}-${VERSION})
