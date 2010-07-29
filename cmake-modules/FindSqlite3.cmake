@@ -4,20 +4,21 @@
 # SQLITE3_FOUND, if false, do not try to link to Sqlite3
 # SQLITE3_INCLUDE_DIR, where to find the headers
 
-FIND_PATH(SQLITE3_INCLUDE_DIR sqlite3.h
+
+find_path(SQLITE3_INCLUDE_DIR sqlite3.h
     HINTS
     $ENV{SQLITE3_DIR}
     PATH_SUFFIXES include
     PATHS
     ~/Library/Frameworks
     /Library/Frameworks
-    /usr/local
     /usr
     /sw # Fink
     /opt/local # DarwinPorts
     /opt/csw # Blastwave
     /opt
     /usr/freeware
+    NO_DEFAULT_PATH
 )
 
 FIND_LIBRARY(SQLITE3_LIBRARY
@@ -28,13 +29,14 @@ FIND_LIBRARY(SQLITE3_LIBRARY
     PATHS
     ~/Library/Frameworks
     /Library/Frameworks
-    /usr/local
     /usr
+    /usr/local
     /sw
     /opt/local
     /opt/csw
     /opt
     /usr/freeware
+    NO_DEFAULT_PATH
 )
 
 INCLUDE(FindPackageHandleStandardArgs)
