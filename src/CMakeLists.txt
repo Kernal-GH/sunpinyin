@@ -44,12 +44,18 @@ set_target_properties(${PACKAGE}
 install(TARGETS ${PACKAGE}
     LIBRARY DESTINATION lib)
 
-set(IME_HEADERS
+set(GENERAL_HEADERS
     sunpinyin.h
     host_os.h
-    portability.h
-    slm/slm.h
-    lexicon/pytrie.h
+    portability.h)
+
+set(SLM_HEADERS
+    slm/slm.h)
+
+set(LEXICON_HEADERS
+    lexicon/pytrie.h)
+
+set(IME_CORE_HEADERS
     ime-core/imi_view_classic.h
     ime-core/imi_uiobjects.h
     ime-core/lattice_states.h
@@ -65,7 +71,9 @@ set(IME_HEADERS
     ime-core/imi_option_keys.h
     ime-core/imi_options.h
     ime-core/imi_defines.h
-    ime-core/imi_view.h
+    ime-core/imi_view.h)
+
+set(PINYIN_HEADERS
     pinyin/segmentor.h
     pinyin/shuangpin_seg.h
     pinyin/datrie.h
@@ -76,5 +84,10 @@ set(IME_HEADERS
     pinyin/shuangpin_data.h
     pinyin/datrie_impl.h)
 
-install(FILES ${IME_HEADERS}
-    DESTINATION include/${PACKAGE}-${VERSION})
+set(INC_DIR include/${PACKAGE}-${VERSION})
+install(FILES ${GENERAL_HEADERS}    DESTINATION ${INC_DIR})
+install(FILES ${SLM_HEADERS}        DESTINATION ${INC_DIR}/slm)
+install(FILES ${LEXICON_HEADERS}    DESTINATION ${INC_DIR}/lexicon)
+install(FILES ${IME_CORE_HEADERS}   DESTINATION ${INC_DIR}/ime-core)
+install(FILES ${PINYIN_HEADERS}     DESTINATION ${INC_DIR}/pinyin)
+
