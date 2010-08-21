@@ -1,5 +1,5 @@
 noinst_HEADERS  	= imi_scimwin.h \
-			  sunpinyin_imengine_config_keys.h \
+			  ..\sunpinyin_imengine_config_keys.h \
 			  sunpinyin_imengine.h \
 			  sunpinyin_keycode.h \
 			  sunpinyin_lookup_table.h \
@@ -21,11 +21,7 @@ sunpinyin_la_SOURCES =  sunpinyin_utils.cpp \
 			sunpinyin_lookup_table.cpp
 
 sunpinyin_la_CXXFLAGS   = @SCIM_CFLAGS@ \
-                          -I$(top_builddir)/src \
-                          -I$(SUNPINYIN_SRC_DIR) \
-                          -I$(PINYIN_SRC_DIR) \
-                          -I$(LEXICON_SRC_DIR) \
-                          -I$(SLM_SRC_DIR) \
+                          -I$(top_srcdir)/include \
                           -DSUNPINYIN_USERDATA_DIR_PREFIX=\"$(SUNPINYIN_USERDATA_DIR_PREFIX)\" \
                           -DSCIM_ICONDIR=\"@SCIM_ICONDIR@\" \
                           -DSCIM_SUNPINYIN_LOCALEDIR=\"$(datadir)/locale\" \

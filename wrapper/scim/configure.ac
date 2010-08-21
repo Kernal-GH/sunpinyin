@@ -22,7 +22,7 @@
 # Use is subject to license terms.
 #
 # Process this file with autoconf to produce a configure script.
-AC_INIT(sunpinyin, 2.0)
+AC_INIT(scim-sunpinyin, 2.0)
 AC_CANONICAL_SYSTEM()
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR(src/sunpinyin_imengine.cpp)
@@ -58,7 +58,7 @@ AC_ARG_WITH([sunpinyin-datadir],
     [SUNPINYIN_DATADIR=""])
 AC_SUBST(SUNPINYIN_DATADIR)
 
-PKG_CHECK_MODULES(sunpinyin, [sunpinyin >= 2.0])
+PKG_CHECK_MODULES(sunpinyin, [sunpinyin-2.0 >= 2.0])
 PKG_CHECK_MODULES(sqlite3, [sqlite3 >= 3.0])
 
 # Check SCIM
