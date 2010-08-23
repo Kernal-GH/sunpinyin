@@ -76,7 +76,7 @@ include(TestBigEndian)
 test_big_endian(WORDS_BIGENDIAN)
 
 configure_file(src/config/${HOST_OS}.h
-               ${CMAKE_SOURCE_DIR}/src/host_os.h ESCAPE_QUOTES)
+               ${CMAKE_SOURCE_DIR}/src/host_os.h COPYONLY)
 configure_file(config.h.cmakein config.h ESCAPE_QUOTES)
 
 add_definitions(-DHAVE_CONFIG_H)
@@ -107,8 +107,9 @@ add_subdirectory(src)
 add_subdirectory(build EXCLUDE_FROM_ALL)
 add_subdirectory(data)
 
-configure_file(sunpinyin.pc.in ${PACKAGE}-${VERSION}.pc @ONLY)
-install(FILES ${PACKAGE}-${VERSION}.pc
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sunpinyin.pc.in
+               ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE}-${VERSION}.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE}-${VERSION}.pc
     DESTINATION lib/pkgconfig)
 
 set(CPACK_PACKAGE_NAME ${PACKAGE_NAME})

@@ -1,12 +1,12 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
-includedir=${prefix}/include/sunpinyin-2.0
+includedir=${prefix}/include/@PACKAGE@-@VERSION@
 
-Name: libsunpinyin
+Name: SunPinyin
 Description: IME library based on Statistical Language Model
-Version: ${PACKAGE_VERSION}
+Version: @PACKAGE_VERSION@
 Requires: sqlite3
 Libs: -L${libdir} -lsunpinyin
-Cflags: -I{includedir}/${PACKAGE}
+Cflags: -I${includedir}
 
