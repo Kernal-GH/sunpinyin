@@ -81,8 +81,9 @@ configure_file(config.h.cmakein config.h ESCAPE_QUOTES)
 
 add_definitions(-DHAVE_CONFIG_H)
 if (NOT DEFINED SUNPINYIN_DATA_DIR)
-    add_definitions(-DSUNPINYIN_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/${PACKAGE}/data")
+    set(SUNPINYIN_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/${PACKAGE}/data")
 endif (NOT DEFINED SUNPINYIN_DATA_DIR)
+add_definitions(-DSUNPINYIN_DATA_DIR="${SUNPINYIN_DATA_DIR}")
 
 set(SOURCE_DIR      "${SUNPINYIN_SOURCE_DIR}/src")
 set(SLM_SRC_DIR     "${SOURCE_DIR}/slm")
