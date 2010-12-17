@@ -18,6 +18,7 @@ find_path(SunPinyin_INCLUDE_DIR
     PATHS ${SunPinyin_PKGCONF_INCLUDE_DIRS}
 )
 
+
 find_library(SunPinyin_LIBRARY
   NAMES sunpinyin
   PATHS ${SunPinyin_PKGCONF_LIBRARY_DIRS}

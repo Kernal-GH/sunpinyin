@@ -49,7 +49,7 @@
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
 
-#include "imi_options.h"
+#include "sunpinyin.h"
 #include "imi_gtkwin.h"
 
 using namespace std;

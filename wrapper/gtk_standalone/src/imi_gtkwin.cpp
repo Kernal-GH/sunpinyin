@@ -39,9 +39,8 @@
 #include <config.h>
 #endif
 
+#include "sunpinyin.h"
 #include "imi_gtkwin.h"
-#include "imi_view.h"
-#include "imi_uiobjects.h"
 
 #ifndef ICON_PATH
 #define ICON_PATH "images"

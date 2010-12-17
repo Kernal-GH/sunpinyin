@@ -52,6 +52,7 @@ debian/control
 
 *.o
 *.os
+*.pyc
 *.lo
 *.loT
 *.bz2
