@@ -38,15 +38,13 @@
 #ifndef SUNPINYIN_IMI_GTK_WIN_H
 #define SUNPINYIN_IMI_GTK_WIN_H
 
-#include "portability.h"
-
 #include <X11/Xlib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <iconv.h>
 
-#include "imi_winHandler.h"
+#include "sunpinyin.h"
 
 class CGTKWinHandler : public CIMIWinHandler
 {
