@@ -25,6 +25,10 @@ set(PACKAGE_STRING      "${PACKAGE} ${VERSION}")
 
 find_package(Sqlite3 REQUIRED)
 
+if (WITH_PYTHON)
+    find_package(PythonLibs REQUIRED)
+endif (WITH_PYTHON)
+
 option(TRAIN_LM
        "Set to ON to train language model using lexicon and corpus, otherwise I will download it from open-gram."
        OFF)
@@ -125,9 +129,10 @@ include(CPack)
 message(STATUS)
 message(STATUS "===== ${PACKAGE_STRING} ====")
 message(STATUS "MAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "TRAIN_LM = ${TRAIN_LM}")
 message(STATUS "HOST_OS = ${HOST_OS}")
 message(STATUS "WORDS_BIGENDIAN = ${WORDS_BIGENDIAN}")
+message(STATUS "WITH_PYTHON = ${WITH_PYTHON}")
+message(STATUS "TRAIN_LM = ${TRAIN_LM}")
 message(STATUS "SUNPINYIN_DATA_DIR = ${SUNPINYIN_DATA_DIR}")
 message(STATUS "Change a value with: cmake -D<variable>=<value>")
 message(STATUS "==========")

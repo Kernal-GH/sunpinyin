@@ -42,6 +42,7 @@
 #include "portability.h"
 #include "imi_view.h"
 #include "imi_view_classic.h"
+#include "imi_view_script.h"
 #include "imi_funcobjs.h"
 #include "imi_data.h"
 #include "imi_option_event.h"
@@ -193,7 +194,7 @@ typedef SingletonHolder<CShuangpinSchemePolicy> AShuangpinSchemePolicy;
 
 struct CClassicStylePolicy : public IConfigurable
 {
-    CIMIView* createView () {return new CIMIClassicView ();}
+    CIMIView* createView () {return new CIMIScriptableView();}
 
     template<class> friend class SingletonHolder;
 protected:

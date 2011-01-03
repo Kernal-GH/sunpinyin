@@ -27,13 +27,23 @@ set(IME_SOURCES
     ime-core/imi_funcobjs.cpp ime-core/imi_funcobjs.h 
     ime-core/imi_options.cpp ime-core/imi_options.h 
     ime-core/imi_option_event.cpp ime-core/imi_option_event.h 
-    ime-core/userdict.cpp ime-core/userdict.h)
+    ime-core/userdict.cpp ime-core/userdict.h
+)
+
+add_library(${PACKAGE} SHARED ${IME_SOURCES})
+
+if (WITH_PYTHON)
+    include_directories(${PYTHON_INCLUDE_DIRS})
+    target_link_libraries(${PACKAGE} ${PYTHON_LIBRARIES})
+    list(APPEND IME_SOURCES
+        ime-core/imi_view_script.cpp ime-core/imi_view_script.h
+	ime-core/python_plugin.cpp ime-core/python_plugin.h)
+endif (WITH_PYTHON)
 
 if (NOT DEFINED SUNPINYIN_DATA_DIR)
     add_definitions(-DSUNPINYIN_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/${PACKAGE}/data")
 endif (NOT DEFINED SUNPINYIN_DATA_DIR)
 
-add_library(${PACKAGE} SHARED ${IME_SOURCES})
 target_link_libraries(${PACKAGE} ${SQLITE3_LIBRARY} ${ICONV_LIBRARY})
 
 set_target_properties(${PACKAGE}
@@ -97,4 +107,3 @@ install(FILES ${SLM_HEADERS}        DESTINATION ${INC_DIR}/slm)
 install(FILES ${LEXICON_HEADERS}    DESTINATION ${INC_DIR}/lexicon)
 install(FILES ${IME_CORE_HEADERS}   DESTINATION ${INC_DIR}/ime-core)
 install(FILES ${PINYIN_HEADERS}     DESTINATION ${INC_DIR}/pinyin)
-
