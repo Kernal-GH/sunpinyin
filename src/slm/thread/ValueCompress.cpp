@@ -43,14 +43,6 @@
 
 #include "ValueCompress.h"
 
-#ifdef HAVE_LIMIT_H
-#include <limit.h>
-#endif
-
-#ifndef DBL_MAX
-#define DBL_MAX (1E+300)
-#endif
-
 struct TVCArrItem {
     float       m_val;
     unsigned    m_heapIdx;
@@ -193,14 +185,14 @@ CValueCompressor::operator()(std::map<float, int>& values,
 
     for (int i=0, sz=heap.size()-1; i < sz; ++i) {
         if (heap[i].m_count == 0 || heap[i+1].m_count == 0) {
-            heap[i].m_dist = DBL_MAX;
+            heap[i].m_dist = numeric_limits<double>::max();
         } else {
             heap[i].m_dist = heap[i+1].m_appval - heap[i].m_appval;
         }
         BubbleUp(heap, arr, i);
     }
     if (heap.size() > 0) {
-        heap[heap.size()-1].m_dist = DBL_MAX;
+        heap[heap.size()-1].m_dist = numeric_limits<double>::max();
         BubbleUp(heap, arr, heap.size()-1);
     }
 
