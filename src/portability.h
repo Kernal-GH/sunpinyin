@@ -38,7 +38,9 @@
 #ifndef ___SUN_SLM_PORTABILITY_H___
 #define ___SUN_SLM_PORTABILITY_H___
 
-#include "host_os.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <stdio.h>
 #include <math.h>
@@ -54,21 +56,19 @@
 #endif //__cpluscplus
 #endif //defined(sun)
 
+#if defined(SOLARIS_OS)
+typedef const char* TIConvSrcPtr;
+#else
+typedef char* TIConvSrcPtr;
+#endif
+
 #define  SIM_ID_NOT_CHAR  (0xFFFF)
 
-#ifndef HOST_OS_GNUC_2
-    #if defined(DEBUG) && !defined(NDEBUG)
-        #define DEBUG_print(fmt, ...)   fprintf(stderr, fmt, ...)
-    #else
-        #define DEBUG_print(fmt, ...)   (int(0))
-    #endif
-#else // HOST_OS_GNUC_2
-    #if defined(DEBUG) && !defined(NDEBUG)
-        #define DEBUG_print(fmt, a...)   fprintf(stderr, fmt, a...)
-    #else
-        #define DEBUG_print(fmt, a...)   (int(0))
-    #endif
-#endif // !HOST_OS_GNUC_2
+#if defined(DEBUG) && !defined(NDEBUG)
+    #define DEBUG_print(fmt, ...)   fprintf(stderr, fmt, ...)
+#else
+    #define DEBUG_print(fmt, ...)   (int(0))
+#endif
 
 union TDoubleAnatomy {
 public:
@@ -147,7 +147,12 @@ private:
 * UCS4 wide character type, system dependent
 * Multibytes string in this program is UTF-8 only
 */
+#if SIZEOF_WCHAR_T >= 4
+typedef wchar_t               TWCHAR;
+#else
+#error "foo"
 typedef unsigned int          TWCHAR;
+#endif
 
 #if !defined(WORDS_BIGENDIAN)
     #define  TWCHAR_ICONV_NAME  "UCS-4LE"
@@ -252,22 +257,18 @@ size_t WCSTOMBS(char* s, const TWCHAR* pwcs, size_t n);
 
 size_t WCSLEN(const TWCHAR* ws);
 
+#if defined(_RW_STD_STL)
 namespace std {
 
-#ifdef HOST_OS_GNUC_2
-struct string_char_traits<TWCHAR>
-#else // !HOST_OS_GNUC_2
+
 template<>
 struct char_traits<TWCHAR>
-#endif // HOST_OS_GNUC_2
 {
     typedef TWCHAR            char_type;
     typedef unsigned int      int_type;
-#ifndef HOST_OS_GNUC_2
     typedef streamoff         off_type;
     typedef wstreampos        pos_type;
     typedef mbstate_t         state_type;
-#endif // !HOST_OS_GNUC_2
 
     static void
     assign(char_type& __c1, const char_type& __c2)
@@ -311,7 +312,6 @@ struct char_traits<TWCHAR>
         return static_cast<char_type*>(memmove(__s1, __s2, __n*sizeof(char_type)));
     }
 
-#ifndef HOST_OS_GNUC_2
     static const char_type*
     find(const char_type* __s, size_t __n, const char_type& __a)
     {
@@ -346,7 +346,6 @@ struct char_traits<TWCHAR>
             *p++ = __a;
         return __s;
     }
-#else // HOST_OS_GNUC_2
     static bool ne(const char_type& __c1, const char_type& __c2)
     { return __c1 != __c2; }
 
@@ -362,31 +361,17 @@ struct char_traits<TWCHAR>
             *p++ = __a;
         return __s;
     }
-#endif // !HOST_OS_GNUC_2
 };
 
 }; // namespace std
+#endif //defined(_RW_STD_STL)
 
-#ifndef HOST_OS_GNUC_2
+
+#ifdef _RW_STD_STL
     typedef std::basic_string<TWCHAR>   wstring;
-#else // HOST_OS_GNUC_2
-    class wstring : public std::basic_string<TWCHAR>
-    {
-        public:
-            inline wstring() : std::basic_string<TWCHAR>((TWCHAR)0) {}
-            inline wstring(const TWCHAR* c) : std::basic_string<TWCHAR>(c) {}
-            inline wstring(const TWCHAR* c, size_t n) : std::basic_string<TWCHAR>(c, n) {}
-            inline void push_back(TWCHAR c) { this->append(1, c); }
-            inline void clear(void) { this->resize(0); }
-            inline const TWCHAR* c_str(void) const
-            {
-                static TWCHAR null_s = 0;
-                if (this->length() == 0) return &null_s;
-                *(const_cast<TWCHAR*>(this->data()) + this->length()) = 0;
-                return this->data();
-            }
-    };
-#endif // !HOST_OS_GNUC_2
+#else
+    using std::wstring;
+#endif
 
 #ifdef _RW_STD_STL
 template <class Iterator>

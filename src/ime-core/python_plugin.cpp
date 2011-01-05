@@ -3,14 +3,13 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "python_utils.h"
+#include "python_plugin.h"
 
-using namespace std;
 
 PyPlugins::PyPlugins() {
     Py_Initialize();
     if (!Py_IsInitialized()) {
-	  throw runtime_error("failed to initialize  runtime");
+		throw std::runtime_error("failed to initialize  runtime");
     }
 }
 
@@ -50,7 +49,7 @@ PyPlugins::init() {
 		m_abbr_method_name = PyString_FromString("do_abbr");
 		return true;
     } else {
-		cout << "faild to initialize python plugins" << endl;
+		std::cout << "faild to initialize python plugins" << std::endl;
 		return false;
     }
 }
@@ -82,7 +81,7 @@ PyPlugins::call(PyObject* method, const wstring& str) {
     Py_CLEAR(src);
 
 	if (result == NULL) {
-		cerr << "failed to call plugin method" << endl;
+		std::cerr << "failed to call plugin method" << std::endl;
 		PyErr_Print();
 		return str;
 	}
@@ -90,7 +89,7 @@ PyPlugins::call(PyObject* method, const wstring& str) {
     int len = PyUnicode_AsWideChar((PyUnicodeObject*)result, &out[0], out.size());
 	Py_CLEAR(result);
 	if (len == -1) {
-		cerr << "bad plugin. fall back to original str" << endl;
+		std::cerr << "bad plugin. fall back to original str" << std::endl;
 		return str;
 	}
     if (len < out.size()) {

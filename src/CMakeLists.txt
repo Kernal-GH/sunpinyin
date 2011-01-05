@@ -8,6 +8,7 @@ if (NOT SKIP_ICONV_LIBRARY)
 endif (NOT SKIP_ICONV_LIBRARY)
 
 set(IME_SOURCES 
+    config.h
     portability.cpp portability.h
     slm/slm.cpp slm/slm.h 
     lexicon/pytrie.cpp lexicon/pytrie.h 
@@ -63,7 +64,7 @@ install(TARGETS ${PACKAGE} ${PACKAGE}-static
 
 set(GENERAL_HEADERS
     sunpinyin.h
-    host_os.h
+    config.h
     portability.h)
 
 set(SLM_HEADERS

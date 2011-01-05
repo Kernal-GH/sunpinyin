@@ -37,7 +37,6 @@
 
 #ifndef SUNPY_PINYIN_SEG_H
 #define SUNPY_PINYIN_SEG_H
-
 #include "portability.h"
 #include "segmentor.h"
 #include "pinyin_data.h"

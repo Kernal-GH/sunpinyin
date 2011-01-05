@@ -1,8 +1,8 @@
-#ifndef SUNPY_IMI_PYTHON_UTILS
-#define SUNPY_IMI_PYTHON_UTILS
+#ifndef SUNPY_PY_PLUGINS
+#define SUNPY_PY_PLUGINS
 
 #include <vector>
-#include <string>
+#include <portability.h>
 
 #include <Python.h>
 
@@ -17,11 +17,11 @@ public:
 	bool init();
 	void fini();
     
-    std::wstring trans(const std::wstring& text);
-    std::wstring abbre(const std::wstring& spell);
+    wstring trans(const wstring& text);
+    wstring abbre(const wstring& spell);
     
 private:
-	std::wstring call(PyObject* method, const std::wstring& str);
+	wstring call(PyObject* method, const wstring& str);
     
 private:
     PyObject* m_module;
@@ -31,4 +31,4 @@ private:
 };
 
 
-#endif //SUNPY_IMI_PYTHON_UTILS
+#endif //SUNPY_PY_PLUGINS

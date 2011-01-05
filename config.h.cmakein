@@ -119,6 +119,10 @@
    first (like Motorola and SPARC, unlike Intel and VAX). */
 #cmakedefine WORDS_BIGENDIAN 1
 
+#cmakedefine SOLARIS_OS 1
+#cmakedefine MAC_OS_X 1
+#cmakedefine LINUX_OS 1
+
 /* Define to empty if `const' does not conform to ANSI C. */
 #cmakedefine const
 
@@ -130,5 +134,7 @@
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 #cmakedefine size_t unsigned int
+
+#cmakedefine SIZEOF_WCHAR_T  ${SIZEOF_WCHAR_T}
 
 #endif // __CONFIG_H__

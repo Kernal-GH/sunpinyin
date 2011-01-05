@@ -61,25 +61,25 @@ check_function_exists(strcpy      HAVE_STRCPY)
 check_function_exists(log2        HAVE_LOG2)
 check_function_exists(exp2        HAVE_EXP2)
 
+include(CheckTypeSize)
+check_type_size(wchar_t           SIZEOF_WCHAR_T)
 
 if (APPLE)
-    set(HOST_OS "mac")
+    set(MAC_OS_X 1)
     set(SKIP_ICONV_LIBRARY 0)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES Linux)
-    set(HOST_OS "linux")
+    set(LINUX_OS 1)
     set(SKIP_ICONV_LIBRARY 1)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES SunOS)
-    set(HOST_OS "solaris")
+    set(SOLARIS_OS 1)
     set(SKIP_ICONV_LIBRARY 1)
 endif (APPLE)
 
 include(TestBigEndian)
 test_big_endian(WORDS_BIGENDIAN)
 
-configure_file(${CMAKE_SOURCE_DIR}/src/config/${HOST_OS}.h
-               ${CMAKE_SOURCE_DIR}/src/host_os.h COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/config.h.cmakein
-               ${CMAKE_CURRENT_BINARY_DIR}/config.h ESCAPE_QUOTES)
+               ${CMAKE_SOURCE_DIR}/src/config.h ESCAPE_QUOTES)
 
 add_definitions(-DHAVE_CONFIG_H)
 if (NOT DEFINED SUNPINYIN_DATA_DIR)

@@ -22,7 +22,7 @@ else (SKIP_ICONV_LIBRARY)
 endif (SKIP_ICONV_LIBRARY)
 
 set(MMSEG_SOURCES
-    ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/config.h
     ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h 
     ${SLM_SRC_DIR}/sim_dict.cpp ${SLM_SRC_DIR}/sim_dict.h
     ${SLM_SRC_DIR}/sim_sen.cpp ${SLM_SRC_DIR}/sim_sen.h
@@ -32,7 +32,7 @@ add_executable(mmseg EXCLUDE_FROM_ALL ${MMSEG_SOURCES})
 target_link_libraries(mmseg ${ICONV_LIBRARY})
 
 set(IDS2NGRAM_SOURCES
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/sim_fmerge.h
     ${SLM_SRC_DIR}/ids2ngram/ids2ngram.cpp ${SLM_SRC_DIR}/ids2ngram/idngram.h
     ${SLM_SRC_DIR}/ids2ngram/idngram_merge.h)
@@ -41,7 +41,7 @@ add_executable(ids2ngram EXCLUDE_FROM_ALL ${IDS2NGRAM_SOURCES})
 target_link_libraries(ids2ngram ${ICONV_LIBRARY})
 
 set(SLMTHREAD_SOURCES
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/sim_slm.cpp ${SLM_SRC_DIR}/sim_slm.h
     ${SLM_SRC_DIR}/thread/ValueCompress.cpp ${SLM_SRC_DIR}/thread/ValueCompress.h
     ${SLM_SRC_DIR}/thread/slmthread.cpp)
@@ -50,7 +50,7 @@ add_executable(slmthread EXCLUDE_FROM_ALL ${SLMTHREAD_SOURCES})
 target_link_libraries(slmthread ${ICONV_LIBRARY})
 
 set(SLMBUILD_SOURCES
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/sim_slm.h
     ${SLM_SRC_DIR}/sim_slmbuilder.cpp ${SLM_SRC_DIR}/sim_slmbuilder.h
     ${SLM_SRC_DIR}/slmbuild/slmbuild.cpp)
@@ -59,7 +59,7 @@ add_executable(slmbuild EXCLUDE_FROM_ALL ${SLMBUILD_SOURCES})
 target_link_libraries(slmbuild ${ICONV_LIBRARY})
 
 set(SLMPRUNE_SOURCES
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/sim_slm.cpp ${SLM_SRC_DIR}/sim_slm.h
     ${SLM_SRC_DIR}/slmprune/slmprune.cpp)
 
@@ -67,7 +67,7 @@ add_executable(slmprune EXCLUDE_FROM_ALL ${SLMPRUNE_SOURCES})
 target_link_libraries(slmprune ${ICONV_LIBRARY})
 
 set(TSLMINFO_SOURCES
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/slm.cpp ${SLM_SRC_DIR}/slm.h
     ${SLM_SRC_DIR}/sim_slm.h
     ${SLM_SRC_DIR}/tslminfo/tslminfo.cpp)
@@ -113,7 +113,7 @@ add_custom_target(
     DEPENDS ${TSLM_INFO_FILE3})
 
 set(GENPYT_SOURCES 
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/slm.cpp ${SLM_SRC_DIR}/slm.h
     ${TSLMENDIAN_DIR}/writer.cpp ${TSLMENDIAN_DIR}/writer.h
     ${LEXICON_SRC_DIR}/trie_writer.cpp ${LEXICON_SRC_DIR}/trie_writer.h
@@ -123,7 +123,7 @@ set(GENPYT_SOURCES
     ${PINYIN_SRC_DIR}/syllable.h)
 
 set(TSLMPACK_SOURCES
-    ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+    ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/slm.cpp ${SLM_SRC_DIR}/slm.h
     ${SLM_SRC_DIR}/thread/ValueCompress.cpp ${SLM_SRC_DIR}/thread/ValueCompress.h
     ${SLM_SRC_DIR}/tslmpack/slmpack.cpp ${SLM_SRC_DIR}/tslmpack/common.h
@@ -132,8 +132,8 @@ set(TSLMPACK_SOURCES
 
 add_executable(tslmpack EXCLUDE_FROM_ALL ${TSLMPACK_SOURCES})
 
-set(GENPYT_SOURCES 
-    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/host_os.h
+set(GENPYT_SOURCES
+    ${SOURCE_DIR}/portability.cpp ${SOURCE_DIR}/portability.h ${SOURCE_DIR}/config.h
     ${SLM_SRC_DIR}/slm.cpp ${SLM_SRC_DIR}/slm.h
     ${TSLMENDIAN_DIR}/writer.cpp ${TSLMENDIAN_DIR}/writer.h
     ${LEXICON_SRC_DIR}/trie_writer.cpp ${LEXICON_SRC_DIR}/trie_writer.h
