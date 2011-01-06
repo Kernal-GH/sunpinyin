@@ -31,21 +31,23 @@ set(IME_SOURCES
     ime-core/userdict.cpp ime-core/userdict.h
 )
 
-add_library(${PACKAGE} SHARED ${IME_SOURCES})
-
 if (WITH_PYTHON)
     include_directories(${PYTHON_INCLUDE_DIRS})
-    target_link_libraries(${PACKAGE} ${PYTHON_LIBRARIES})
     list(APPEND IME_SOURCES
         ime-core/imi_view_script.cpp ime-core/imi_view_script.h
 	ime-core/python_plugin.cpp ime-core/python_plugin.h)
 endif (WITH_PYTHON)
+
+add_library(${PACKAGE} SHARED ${IME_SOURCES})
 
 if (NOT DEFINED SUNPINYIN_DATA_DIR)
     add_definitions(-DSUNPINYIN_DATA_DIR="${CMAKE_INSTALL_PREFIX}/share/${PACKAGE}/data")
 endif (NOT DEFINED SUNPINYIN_DATA_DIR)
 
 target_link_libraries(${PACKAGE} ${SQLITE3_LIBRARY} ${ICONV_LIBRARY})
+if (WITH_PYTHON)
+    target_link_libraries(${PACKAGE} ${PYTHON_LIBRARIES})
+endif (WITH_PYTHON)
 
 set_target_properties(${PACKAGE}
     PROPERTIES
@@ -75,6 +77,8 @@ set(LEXICON_HEADERS
 
 set(IME_CORE_HEADERS
     ime-core/imi_view_classic.h
+    ime-core/imi_view_script.h
+    ime-core/python_plugin.h
     ime-core/imi_uiobjects.h
     ime-core/lattice_states.h
     ime-core/ic_history.h

@@ -18,6 +18,8 @@ find_path(SunPinyin_INCLUDE_DIR
     PATHS ${SunPinyin_PKGCONF_INCLUDE_DIRS}
 )
 
+find_package(PythonLibs REQUIRED)
+
 
 find_library(SunPinyin_LIBRARY
   NAMES sunpinyin

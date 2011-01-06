@@ -22,6 +22,7 @@ PyPlugins::operator bool() const {
 
 bool
 PyPlugins::init() {
+	std::cout << __FUNCTION__ << std::endl;
     PyRun_SimpleString("import sys");
 	
     char path[PATH_MAX];

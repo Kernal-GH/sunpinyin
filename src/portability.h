@@ -38,10 +38,6 @@
 #ifndef ___SUN_SLM_PORTABILITY_H___
 #define ___SUN_SLM_PORTABILITY_H___
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <stdio.h>
 #include <math.h>
 #include <string>
@@ -55,6 +51,8 @@
 #include <sys/ddi.h>
 #endif //__cpluscplus
 #endif //defined(sun)
+
+#include "config.h"
 
 #if defined(SOLARIS_OS)
 typedef const char* TIConvSrcPtr;
@@ -150,7 +148,6 @@ private:
 #if SIZEOF_WCHAR_T >= 4
 typedef wchar_t               TWCHAR;
 #else
-#error "foo"
 typedef unsigned int          TWCHAR;
 #endif
 

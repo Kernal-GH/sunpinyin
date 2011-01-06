@@ -12,7 +12,13 @@ PyPlugins CIMIScriptableView::m_plugins;
 CIMIScriptableView::CIMIScriptableView()
     :CIMIView(), m_cursorFrIdx(0), m_candiFrIdx(0),
      m_candiPageFirst(0), m_numeric_mode(false)
-    { }
+{
+	if (m_plugins)
+		return;
+	if (!m_plugins.init()) {
+		m_plugins.fini();
+	}
+}
 
 CIMIScriptableView::~CIMIScriptableView()
     { }

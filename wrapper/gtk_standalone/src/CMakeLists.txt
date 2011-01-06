@@ -7,6 +7,9 @@ include_directories(${GTK2_INCLUDE_DIRS} ${SunPinyin_INCLUDE_DIR})
 set(LIBS ${LIBS} ${GTK2_LIBRARIES} ${SunPinyin_LIBRARY} ${ICONV_LIBRARY})
 set(STANDALONE_SRCS imi_gtkwin.cpp sunpinyin.cpp)
 
+include_directories(${PYTHON_INCLUDE_DIRS})
+
 add_executable(sunpinyin ${STANDALONE_SRCS})
+target_link_libraries(sunpinyin ${PYTHON_LIBRARIES})
 target_link_libraries(sunpinyin ${LIBS})
 
