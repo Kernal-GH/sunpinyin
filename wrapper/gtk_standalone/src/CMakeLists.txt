@@ -3,13 +3,15 @@
 find_package(GTK2 REQUIRED gtk)
 find_library(ICONV_LIBRARY iconv)
 
-include_directories(${GTK2_INCLUDE_DIRS} ${SunPinyin_INCLUDE_DIR})
-set(LIBS ${LIBS} ${GTK2_LIBRARIES} ${SunPinyin_LIBRARY} ${ICONV_LIBRARY})
+find_library(SunPinyin_LIBRARY
+  NAMES sunpinyin
+  PATHS ${SunPinyin_LIBRARY_DIRS}
+)
+
+include_directories(${GTK2_INCLUDE_DIRS} ${SunPinyin_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${GTK2_LIBRARIES} ${SunPinyin_LIBRARIES} ${ICONV_LIBRARY})
 set(STANDALONE_SRCS imi_gtkwin.cpp sunpinyin.cpp)
 
-include_directories(${PYTHON_INCLUDE_DIRS})
-
-add_executable(sunpinyin ${STANDALONE_SRCS})
-target_link_libraries(sunpinyin ${PYTHON_LIBRARIES})
-target_link_libraries(sunpinyin ${LIBS})
-
+add_executable(gtk_standalone ${STANDALONE_SRCS})
+message(STATUS "${LIBS}")
+target_link_libraries(gtk_standalone ${LIBS})

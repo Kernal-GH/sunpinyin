@@ -111,6 +111,10 @@ add_subdirectory(src)
 add_subdirectory(build EXCLUDE_FROM_ALL)
 add_subdirectory(data)
 
+if (WITH_PYTHON)
+    set(PKG_CONF_PYTHON_REQUIRES "python >= 2.6")
+endif (WITH_PYTHON)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sunpinyin.pc.in
                ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE}-${VERSION}.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE}-${VERSION}.pc

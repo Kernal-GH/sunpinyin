@@ -6,7 +6,8 @@ includedir=${prefix}/include/@PACKAGE@-@VERSION@
 Name: SunPinyin
 Description: IME library based on Statistical Language Model
 Version: @PACKAGE_VERSION@
-Requires: sqlite3
+URL: http://sunpinyin.org
+Requires.private: sqlite3 @PKG_CONF_PYTHON_REQUIRES@
 Libs: -L${libdir} -lsunpinyin
-Cflags: -I${includedir}
-
+Libs.private: -lm
+Cflags: -I${includedir} @PKG_CONF_PYTHON_CFLAGS@
