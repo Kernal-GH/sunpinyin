@@ -23,21 +23,21 @@ set(PACKAGE_SOVERSION   3)
 set(PACKAGE_VERSION     ${VERSION})
 set(PACKAGE_STRING      "${PACKAGE} ${VERSION}")
 
+option(WITH_PYTHON "Enable Python plugin support" ON)
+option(TRAIN_LM
+       "Set to ON to train language model using lexicon and corpus, otherwise I will download it from open-gram."
+       OFF)
+
 find_package(Sqlite3 REQUIRED)
 
 if (WITH_PYTHON)
     find_package(PythonLibs REQUIRED)
 endif (WITH_PYTHON)
 
-option(TRAIN_LM
-       "Set to ON to train language model using lexicon and corpus, otherwise I will download it from open-gram."
-       OFF)
-
 check_include_files(assert.h    HAVE_ASSERT_H)
 check_include_files(getopt.h    HAVE_GETOPT_H)
 check_include_files(iconv.h     HAVE_ICONV_H)
 check_include_files(libintl.h   HAVE_LIBINTL_H)
-check_include_files(limit.h     HAVE_LIMIT_H)
 check_include_files(locale.h    HAVE_LOCALE_H)
 check_include_files(stdlib.h    HAVE_STDLIB_H)
 check_include_files(string.h    HAVE_STRING_H)
@@ -56,8 +56,6 @@ check_function_exists(munmap      HAVE_MUNMAP)
 check_function_exists(setlocale   HAVE_SETLOCALE)
 check_function_exists(strdup      HAVE_STRDUP)
 check_function_exists(strndup     HAVE_STRNDUP)
-check_function_exists(strlen      HAVE_STRLEN)
-check_function_exists(strcpy      HAVE_STRCPY)
 check_function_exists(log2        HAVE_LOG2)
 check_function_exists(exp2        HAVE_EXP2)
 
